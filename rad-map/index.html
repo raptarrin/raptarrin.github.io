@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Rad Maps</title>
+    <style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0; padding: 0 }
+  </style>
+    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="leaflet/leaflet.css" />
+<script type="text/javascript" src="leaflet/leaflet.js"></script>
+<script type="text/javascript" src="leaflet/leaflet-providers.js"></script>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+
+   <script language="javascript">
+      var map;
+      var popup = L.popup();
+         
+      function initmap() {
+                       
+         map = new L.Map('map');
+         popup = new L.Popup();
+         
+         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+            maxZoom: 18
+         }).addTo(map);
+         map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
+L.tileLayer.provider('Thunderforest.Landscape').addTo(map);
+         var shenyang = new L.LatLng(41.8059, 123.4323); 
+         map.setView(shenyang, 13);
+         
+         
+         map.on('click', onMapClick);
+      }
+ 
+ 
+      //Listener function taking an event object 
+      function onMapClick(e) {
+      var lat = (e.latlng.lat);
+      var lng = (e.latlng.lng);
+      var src = 'http://dev1.tomnod.com/chip_api/chip/lat/' + lat + '/lng/' +lng;
+
+         //map click event object (e) has latlng property which is a location at which the click occured.
+         popup
+           .setLatLng(e.latlng)
+           .setContent("You clicked the map at " + "<img class='tmage' src=" + src + "/>" + e.latlng.toString())
+           .openOn(map);
+      }
+      
+   </script>
+</head>
+<body onload="initmap()">
+
+
+<div id="map" style="width:100%; height:1000px"></div>    
+
+
+
+
+</body>
+</html>
+
